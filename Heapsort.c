@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define TESTLENGTH 10000
+#define TESTLENGTH 30
 #define TESTRANGE 100
 
 void swap(long *A, long x, long y){
@@ -11,23 +11,23 @@ void swap(long *A, long x, long y){
     A[y] = temp;
 }
 
-void sink(long *A, long k, long n){
+void sift(long *A, long k, long n){
     long j;
     while((k << 1) + 1 <= n){
         j = (k << 1) + 1;
-        if(j < n && A[j] > A[j + 1]) j++;
-        if(A[k] < A[j]) return;
+        if(j < n && A[j] < A[j + 1]) j++;
+        if(A[k] > A[j]) return;
         swap(A, k, j);
         k = j;
     }
 }
 
 void sort(long *A, int len){
-    for(int i = len >> 1; i >= 0; i--) sink(A, i, len);
+    for(int i = len >> 1; i >= 0; i--) sift(A, i, len);
     while(len > 0){
         swap(A, 0, len);
         len--;
-        sink(A, 0, len);
+        sift(A, 0, len);
     }
 }
 
