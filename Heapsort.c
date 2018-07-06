@@ -5,15 +5,15 @@
 #define TESTLENGTH 30 //How big is the array to be sorted
 #define TESTRANGE 100 //Numbers from 1 - TESTRANGE will be in the test array
 
-void swap(long *A, int x, int y){ //swaps values in array A at indices x and y
-    long temp = A[x];
+void swap(unsigned long *A, int x, int y){ //swaps values in array A at indices x and y
+    unsigned long temp = A[x];
     A[x] = A[y];
     A[y] = temp;
 }
 
 //The heap is represented by an array where the left subheap is at index * 2 + 1 and the right subheap is at index * 2 + 2
 //We are using a maximum heap
-void sift(long *A, int k, int n){ //A[k] up to A[n] is a heap, except at A[k] the heap condition is possibly violated
+void sift(unsigned long *A, int k, int n){ //A[k] up to A[n] is a heap, except at A[k] the heap condition is possibly violated
     int sub; //Index for subheaps
     while((k << 1) + 1 <= n){ //We can stop as soon as the left subheap is the end
         sub = (k << 1) + 1; //Index of the left subheap
@@ -24,7 +24,7 @@ void sift(long *A, int k, int n){ //A[k] up to A[n] is a heap, except at A[k] th
     }
 }
 
-void sort(long *A, int len){ //Gets length - 1
+void sort(unsigned long *A, int len){ //Gets length - 1
     for(int i = len >> 1; i >= 0; i--) sift(A, i, len); //Turn into a heap. The right halfth does not violate the heap condition anyways as it forms the leaves
     while(len > 0){ //periodically put the root to the end and restore the heap
         swap(A, 0, len);
@@ -35,7 +35,7 @@ void sort(long *A, int len){ //Gets length - 1
 
 int main(){
     srand(time(0)); //seed
-    long A[TESTLENGTH]; //Test array
+    unsigned long A[TESTLENGTH]; //Test array
     int i;
     for(i = 0; i < TESTLENGTH; i++){ //Build and print test array
         A[i] = rand() % TESTRANGE + 1;
