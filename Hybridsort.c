@@ -64,17 +64,9 @@ listElement* merge(listElement *linkedList1, listElement *linkedList2){
     }
 }
 
-int main(){
-    srand(time(0));
-    unsigned long A[TESTLENGTH];
+listElement* sort(unsigned long *A, int len){
     int i;
-    for(i = 0; i < TESTLENGTH; i++){
-        A[i] = rand() % TESTRANGE + 1;
-        printf("%ld, ", A[i]);
-    }
-    printf("\n");
-
-    int preSortedSize = (TESTLENGTH + 9) / 10;
+    int preSortedSize = (len + 9) / 10;
     listElement **preSorted;
     preSorted = malloc(preSortedSize * sizeof(listElement));
     if(preSorted == NULL){
@@ -83,7 +75,7 @@ int main(){
     }
 
     for(i = 0; i < preSortedSize; i++){
-        if(i * 10 > TESTLENGTH - 1) preSorted[i] = insertSort(arrayToLinkedList(&A[i * 10], TESTLENGTH - (i * 10) - 1));
+        if(i * 10 > TESTLENGTH - 1) preSorted[i] = insertSort(arrayToLinkedList(&A[i * 10], len - (i * 10) - 1));
         else preSorted[i] = insertSort(arrayToLinkedList(&A[i * 10], 9));
     }
 
@@ -111,7 +103,22 @@ int main(){
         }
         preSorted = mergedSorted;
     }
-    linkedListToArray(preSorted[0], A, 0);
+    listElement *temp = preSorted[0];
     free(preSorted);
+    return temp;
+}
+
+int main(){
+    srand(time(0));
+    unsigned long A[TESTLENGTH];
+    int i;
+    for(i = 0; i < TESTLENGTH; i++){
+        A[i] = rand() % TESTRANGE + 1;
+        printf("%ld, ", A[i]);
+    }
+    sort(A, TESTLENGTH);
+    printf("\n");
+
+    linkedListToArray(sort(A, TESTLENGTH), A, 0);
     for(i = 0; i < TESTLENGTH; i++) printf("%ld, ", A[i]);
 }
