@@ -25,7 +25,7 @@ void sift(unsigned long *A, int k, int n){ //A[k] up to A[n] is a heap, except a
 }
 
 void sort(unsigned long *A, int len){ //Gets length - 1
-    for(int i = len >> 1; i >= 0; i--) sift(A, i, len); //Turn into a heap. The right halfth does not violate the heap condition anyways as it forms the leaves
+    for(int i = len >> 1; i >= 0; i--) sift(A, i, len); //Turn into a heap. The right half does not violate the heap condition anyways as it forms the leaves
     while(len > 0){ //periodically put the root to the end and restore the heap
         swap(A, 0, len);
         len--;
