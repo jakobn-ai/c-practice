@@ -24,7 +24,8 @@ void sift(unsigned long *A, int k, int n){ //A[k] up to A[n] is a heap, except a
     }
 }
 
-void sort(unsigned long *A, int len){ //Gets length - 1
+void sort(unsigned long *A, int len){
+    len--; //Arrays start at 0
     for(int i = len >> 1; i >= 0; i--) sift(A, i, len); //Turn into a heap. The right half does not violate the heap condition anyways as it forms the leaves
     while(len > 0){ //periodically put the root to the end and restore the heap
         swap(A, 0, len);
@@ -41,7 +42,7 @@ int main(){
         A[i] = rand() % TESTRANGE + 1;
         printf("%ld, ", A[i]);
     }
-    sort(A, TESTLENGTH - 1);
+    sort(A, TESTLENGTH);
     printf("\n");
     for(i = 0; i < TESTLENGTH; i++) printf("%ld, ", A[i]); //Print sorted array
 }
