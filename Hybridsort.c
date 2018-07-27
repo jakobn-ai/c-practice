@@ -64,7 +64,7 @@ listElement* merge(listElement *linkedList1, listElement *linkedList2){ //Merges
     }
 }
 
-listElement* sort(unsigned long *A, int len){
+void sort(unsigned long *A, int len){
     int i; //Counter
     int preSortedSize = (len + 9) / 10; //Ceiling tenth
     listElement **preSorted; //To be merged
@@ -105,7 +105,7 @@ listElement* sort(unsigned long *A, int len){
     }
     listElement *temp = preSorted[0]; //To be returned
     free(preSorted);
-    return temp;
+    return linkedListToArray(temp, A, 0);
 }
 
 int main(){
@@ -118,6 +118,6 @@ int main(){
     }
     printf("\n");
 
-    linkedListToArray(sort(A, TESTLENGTH), A, 0);
+    sort(A, TESTLENGTH);
     for(i = 0; i < TESTLENGTH; i++) printf("%ld, ", A[i]); //Print sorted array
 }
