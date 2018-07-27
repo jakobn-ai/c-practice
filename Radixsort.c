@@ -16,25 +16,26 @@ void count256(unsigned long *A, unsigned int *bytes, unsigned long *sorted, unsi
     for(i = 0; i < len; i++) sorted[index[bytes[i]]++] = A[i]; //Filling phase
 }
 
-void sort(unsigned long *A, unsigned long *sorted, unsigned int len){ //Radix sort. Takes the array to be sorted, the array to contain the sorted version, and the length of these arrays.
+void sort(unsigned long *A, unsigned int len){ //Radix sort. Takes the array to be sorted, the array to contain the sorted version, and the length of these arrays.
     unsigned int bytes[len]; //The n-th byte of the numbers to be sorted is copied into here
+    unsigned long sorted[len];
     for(int i = 0; i < 4; i++){
-        for(int j = 0; j < len; j++) bytes[j] = ((A[j] >> (i*8)) & 255); //Mask the bytes out
+        int j;
+        for(j = 0; j < len; j++) bytes[j] = ((A[j] >> (i*8)) & 255); //Mask the bytes out
         count256(A, bytes, sorted, len);
-        A = sorted; //Overwrite. Counting is stable!
+        for(j = 0; j < len; j++) A[j] = sorted[j];
     }
 }
 
 int main(){
     srand(time(0)); //seed
     unsigned long A[TESTLENGTH]; //Test array
-    unsigned long sorted[TESTLENGTH];
     int i;
     for(i = 0; i < TESTLENGTH; i++){ //Build and print test array
         A[i] = rand() % TESTRANGE + 1;
         printf("%ld, ", A[i]);
     }
-    sort(A, sorted, TESTLENGTH);
+    sort(A, TESTLENGTH);
     printf("\n");
-    for(i = 0; i < TESTLENGTH; i++) printf("%ld, ", sorted[i]); //Print sorted array
+    for(i = 0; i < TESTLENGTH; i++) printf("%ld, ", A[i]); //Print sorted array
 }
