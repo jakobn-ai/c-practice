@@ -12,7 +12,8 @@ struct node{ //A structure to be used for the linked list
 
 typedef struct node listElement; //Typedefinition as linked list. The referenced element will be the first, the last will be the one that has NULL as next
 
-listElement* arrayToLinkedList(unsigned long *A, int len){ //Gets length - 1
+listElement* arrayToLinkedList(unsigned long *A, int len){
+    len--; //Adjust for array indexrra
     listElement *next = NULL; //List will be built reversely, so the last element has NULL as next
     for(;; len--){ //End condition will be in return statement
         listElement *newListElement;
@@ -75,8 +76,8 @@ void sort(unsigned long *A, int len){
     }
 
     for(i = 0; i < preSortedSize; i++){ //Iterate through arrays
-        if(i * 10 > len - 1) preSorted[i] = insertSort(arrayToLinkedList(&A[i * 10], len - (i * 10) - 1)); //Insertsort last portion of the array
-        else preSorted[i] = insertSort(arrayToLinkedList(&A[i * 10], 9)); //Insertsort ten array elements
+        if(i * 10 > len - 1) preSorted[i] = insertSort(arrayToLinkedList(&A[i * 10], len - (i * 10))); //Insertsort last portion of the array
+        else preSorted[i] = insertSort(arrayToLinkedList(&A[i * 10], 10)); //Insertsort ten array elements
     }
 
     int mergedSize = preSortedSize;
