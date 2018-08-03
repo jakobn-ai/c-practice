@@ -45,4 +45,5 @@ int main(){
     sort(A, TESTLENGTH);
     printf("\n");
     for(i = 0; i < TESTLENGTH; i++) printf("%ld, ", A[i]); //Print sorted array
+    printf("\n");
 }
