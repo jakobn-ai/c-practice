@@ -40,32 +40,32 @@ void linkedListToArray(listElement *linkedList, unsigned long *A, int idx){ //St
 listElement* append(listElement *linkedList1, listElement *linkedList2){
     if(linkedList2 == NULL) return linkedList1;
     if(linkedList1 == NULL) return linkedList2;
-    if(linkedList1->next == NULL) linkedList1->next = linkedList2;
+    if(linkedList1->next == NULL) linkedList1->next = linkedList2; //reached end of list1
     else append(linkedList1->next, linkedList2);
     return linkedList1;
 }
 
-void partition(listElement **pivots, listElement *restOfList){
-    if(restOfList == NULL) return;
-    listElement *temp = restOfList;
+void partition(listElement **pivots, listElement *restOfList){ //Takes an array of five linked lists where indices 1, 3 are the pivots and indices 0, 2, 4 are empty, and the list to be pivoted
+    if(restOfList == NULL) return; //end condition
+    listElement *temp = restOfList; //separate first element
     restOfList = restOfList->next;
     temp->next = NULL;
-    partition(pivots, restOfList);
-    int pivotIndex;
+    partition(pivots, restOfList); //recursive call with the rest of the list
+    int pivotIndex; //where to put the element
     if(*(temp->number) <= *(pivots[1]->number)) pivotIndex = 0;
     else if(*(temp-> number) <= *(pivots[3]->number)) pivotIndex = 2;
     else pivotIndex = 4;
-    append(temp, pivots[pivotIndex]);
+    append(temp, pivots[pivotIndex]); //it is better to have the shorter list first because the shorter list gets iterated
     pivots[pivotIndex] = temp;
 }
 
-listElement* pivot(listElement *linkedList){
-    if(linkedList == NULL || linkedList->next == NULL) return linkedList;
-    listElement* pivots[5];
-    pivots[0] = NULL;
+listElement* pivot(listElement *linkedList){ //Actual sorting
+    if(linkedList == NULL || linkedList->next == NULL) return linkedList; //end condition
+    listElement* pivots[5]; //indices 1, 3 are the pivots
+    pivots[0] = NULL; //indices 0, 2, 4 are empty
     pivots[2] = NULL;
     pivots[4] = NULL;
-    listElement *restOfList = linkedList->next->next;
+    listElement *restOfList = linkedList->next->next; //separate first two elements
     linkedList->next->next = NULL;
     if(*(linkedList->number) <= *(linkedList->next->number)){
         pivots[3] = linkedList->next;
@@ -76,12 +76,11 @@ listElement* pivot(listElement *linkedList){
         linkedList->next = NULL;
         pivots[3] = linkedList;
     }
-    partition(pivots, restOfList);
+    partition(pivots, restOfList); //sort the other elements into pivots
     int i;
-    for(i = 0; i <= 4; i += 2) pivots[i] = pivot(pivots[i]);
-    for(i = 4; i > 0; i--) pivots[i - 1] = append(pivots[i - 1], pivots[i]);
-    restOfList = pivots[0];
-    return restOfList;
+    for(i = 0; i <= 4; i += 2) pivots[i] = pivot(pivots[i]); //recursively sort indices 0, 2, 4
+    for(i = 4; i > 0; i--) pivots[i - 1] = append(pivots[i - 1], pivots[i]); //append them all, it is better to have the shorter list first
+    return pivots[0];
 }
 
 void sort(unsigned long *A, int len){
