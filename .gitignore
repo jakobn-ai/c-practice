@@ -1,5 +1,2 @@
 *.swp
-DualQuicksort
-Heapsort
-Hybridsort
-Radixsort
+*.o
